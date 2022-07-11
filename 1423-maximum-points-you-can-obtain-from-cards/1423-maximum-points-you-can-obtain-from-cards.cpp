@@ -1,13 +1,22 @@
 class Solution {
+    vector<int> psum;
 public:
-    using VI = vector<int>;
-    int maxScore(VI& A, int K) {
-        int N = A.size(),
-            i = 0,
-            j = N - K;
-        auto total = accumulate(A.begin() + j, A.end(), 0),
-             best = total;
-        while (K--) best = max(best, total += A[i++] - A[j++]);  // slide window by K \U0001f449
-        return best;
+    int maxScore(vector<int>& cardPoints, int k) {
+        int n=cardPoints.size();
+        psum.push_back(0);
+        psum.push_back(cardPoints[0]);
+        for(int i=1;i<n;i++){
+            psum.push_back(*psum.rbegin()+cardPoints[i]);
+        }
+        int ans=INT_MIN;
+        int k1=k;
+        while(k1){
+            int rsum=*psum.rbegin()-psum[n-k1];
+            int lsum=psum[k-k1];
+            ans=max(ans,lsum+rsum);
+            k1--;
+        }
+        ans=max(ans,psum[k]);
+        return ans;
     }
 };
