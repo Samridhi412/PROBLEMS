@@ -1,36 +1,40 @@
 class Solution {
+    double median(vector<int> v){
+        int n=v.size();
+        return (n%2)?v[n/2]*1.0:(v[n/2] + v[n/2 -1])/2.0;
+    }
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int n1=nums1.size();
         int n2=nums2.size();
         if(n1>n2)return findMedianSortedArrays(nums2,nums1);
+         if(n1==0)return median(nums2);
         int low=0;
         int high=n1;
-        double ans;
+        int tot=(n1+n2+1)/2;
         while(low<=high){
-            int cnt1=(low+high)>>1;
-            int total_left=(n1+n2)&1?(n1+n2+1)/2:(n1+n2)/2;
-            int cnt2=total_left-cnt1;
-            int l1=cnt1==0?INT_MIN:nums1[cnt1-1];
-            int l2=cnt2==0?INT_MIN:nums2[cnt2-1];
-            int r1=cnt1==n1?INT_MAX:nums1[cnt1];
-            int r2=cnt2==n2?INT_MAX:nums2[cnt2];
-            if(l1<=r2&&l2<=r1){
-                if((n1+n2)&1){
-                    ans=max(l1,l2);
+            int mid=(low+high)/2;
+            int len2=tot-mid;
+            int fleft=mid==0?INT_MIN:nums1[mid-1];
+            int fright=mid==n1?INT_MAX:nums1[mid];
+            int sleft=len2==0?INT_MIN:nums2[len2-1];
+            int sright=len2==n2?INT_MAX:nums2[len2];
+            if(fleft<=sright&&sleft<=fright){
+                if((n1+n2)%2){
+                    return 1.0*max(fleft,sleft);
                 }
                 else{
-                    ans=(max(l1,l2)+min(r1,r2))/2.0;
+                    return (1.0*max(fleft,sleft)+min(fright,sright))/2.0;
                 }
-                break;
             }
-            else if(l1>r2){
-                high=cnt1-1;
+            else if(fleft>sright){
+                high=mid-1;
             }
             else{
-                low=cnt1+1;
+                low=mid+1;
             }
+            
         }
-        return ans;
+        return 0.0;
     }
 };
