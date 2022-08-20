@@ -14,8 +14,8 @@ struct node{
 };
 class compare{
     public:
-    bool operator()(node& a,node& b){
-        return (a.temp->val>b.temp->val);
+    bool operator()(ListNode* a,ListNode* b){
+        return (a->val>b->val);
     }
 };
 class Solution {
@@ -24,24 +24,24 @@ public:
         if(lists.size()==0)return NULL;
         ListNode* dummy=new ListNode(0);
         ListNode* newnode=dummy;
-        priority_queue<node,vector<node>,compare> pq;
+        priority_queue<ListNode*,vector<ListNode*>,compare> pq;
         int n=lists.size();
         for(int i=0;i<n;i++){
             if(lists[i]!=NULL){
-            pq.push({lists[i],i});
+            pq.push(lists[i]);
             }
         }
         while(!pq.empty()){
-            node nn=pq.top();
+            ListNode* nn=pq.top();
             pq.pop();
-              ListNode* n1=new ListNode(nn.temp->val);
+              ListNode* n1=new ListNode(nn->val);
              // cout<<nn.temp->val<<endl;
                 newnode->next=n1;
             newnode=n1;
-            if(nn.temp->next!=NULL){
+            if(nn->next!=NULL){
               
                
-                pq.push({nn.temp->next,nn.index});
+                pq.push(nn->next);
             }
             
         }
