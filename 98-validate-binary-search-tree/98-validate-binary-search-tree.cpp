@@ -12,15 +12,15 @@
 #define INT_MAX pow(2,31)+5
 #define INT_MIN -pow(2,31)-5
 class Solution {
-    bool isvalid(TreeNode* root,long long min,long long max){
-        if(!root)return true;
-        if(root->val<=min||root->val>=max)return false;
-        bool left=isvalid(root->left,min,root->val);
-        bool right=isvalid(root->right,root->val,max);
-        return left&&right;
+    bool helper(TreeNode* root,long long min,long long max){
+        if(!root){
+            return true;
+        }
+        if(root->val>min&&root->val<max)return helper(root->left,min,root->val)&&helper(root->right,root->val,max);
+        else return false;
     }
 public:
     bool isValidBST(TreeNode* root) {
-        return isvalid(root,INT_MIN,INT_MAX);
+        return helper(root,INT_MIN,INT_MAX);
     }
 };
