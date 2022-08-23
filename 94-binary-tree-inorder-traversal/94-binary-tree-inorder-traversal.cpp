@@ -22,22 +22,48 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> res;
         // helper(root,res);
-        stack<TreeNode*> st;
-        TreeNode* temp=root;
-        while(1){
+//         stack<TreeNode*> st;
+//         TreeNode* temp=root;
+//         while(1){
           
-           if(temp){
-               st.push(temp);
-               temp=temp->left;
-           }
-            else{
-                if(st.empty())break;
-                temp=st.top();
-                res.push_back(st.top()->val);
-                st.pop();
-                temp=temp->right;
-            }
+//            if(temp){
+//                st.push(temp);
+//                temp=temp->left;
+//            }
+//             else{
+//                 if(st.empty())break;
+//                 temp=st.top();
+//                 res.push_back(st.top()->val);
+//                 st.pop();
+//                 temp=temp->right;
+//             }
             
+//         }
+//         return res;
+        
+        // MORRIS TRAVERSAL
+        
+        TreeNode* curr=root;
+        while(curr){
+            if(!curr->left){
+                res.push_back(curr->val);
+                curr=curr->right;
+            }
+            else{
+                TreeNode* prev=curr->left;
+                while(prev->right&&prev->right!=curr){
+                    prev=prev->right;
+                }
+                if(prev->right==NULL){
+                    prev->right=curr;
+                    curr=curr->left;
+                }
+                else if(prev->right==curr){
+                    prev->right=NULL;
+                    res.push_back(curr->val);
+                    curr=curr->right;
+                }
+            }
         }
         return res;
     }
