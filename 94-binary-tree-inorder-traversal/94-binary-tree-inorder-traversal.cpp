@@ -10,46 +10,18 @@
  * };
  */
 class Solution {
-public:
-    vector<int> inorderTraversal(TreeNode* node) {
-        if(!node)return {};
-        vector<int> inorder;
-        // stack<TreeNode*> st;
-        // while(1){
-        //     if(node){
-        //         st.push(node);
-        //         node=node->left;
-        //     }
-        //     else{
-        //         if(st.empty())break;
-        //         TreeNode* value=st.top();
-        //         inorder.push_back(value->val);
-        //         st.pop();
-        //         node=value->right;
-        //     }
-        // }
-        TreeNode* root=node;
-        while(root){
-            if(root->left==NULL){
-                inorder.push_back(root->val);
-                root=root->right;
-            }
-            else{
-                TreeNode* prev=root->left;
-                while(prev->right&&prev->right!=root){
-                    prev=prev->right;
-                }
-                if(prev->right==NULL){
-                    prev->right=root;
-                    root=root->left;
-                }
-                else{
-                    prev->right=NULL;
-                    inorder.push_back(root->val);
-                    root=root->right;
-                }
-            }
+    void helper(TreeNode* root,vector<int>& res){
+        if(!root){
+            return;
         }
-        return inorder;
+        helper(root->left,res);
+        res.push_back(root->val);
+        helper(root->right,res);
+    }
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        helper(root,res);
+        return res;
     }
 };
