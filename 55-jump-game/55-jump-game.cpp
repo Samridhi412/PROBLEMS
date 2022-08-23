@@ -17,7 +17,21 @@ class Solution {
 public:
     bool canJump(vector<int>& nums) {
         int n=nums.size();
-        vector<int> dp(n,-1);
-        return helper(nums,0,n,dp);
+        vector<int> dp(n,0);
+        // return helper(nums,0,n,dp);
+        dp[n-1]=1;
+        for(int i=n-2;i>=0;i--){
+            if(nums[i]==0){
+                dp[i]=0;
+                continue;
+            }
+            for(int j=1;j<=nums[i];j++){
+                if(dp[i+j]){
+                    dp[i]=1;
+                    break;
+                }
+            }
+        }
+        return dp[0];
     }
 };
