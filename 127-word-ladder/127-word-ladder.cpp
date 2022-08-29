@@ -12,6 +12,7 @@ public:
         }
         queue<string> q;
         q.push(beginWord);
+        s.erase(beginWord);
         int lvl=0;
         while(!q.empty()){
             lvl++;
